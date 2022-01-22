@@ -9,4 +9,4 @@ it-coin:
 	GANACHE_HOST="http://127.0.0.1:7545" \
 	CONTRACT_ADDR=0xacF34e0d0EFB95759955daC09d2E9170E48405f1 \
 	GANHACE_NETWORK_ID=5777 \
-		go run ./cmd/storage/...
+		go run ./cmd/coin/... -help
