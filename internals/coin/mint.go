@@ -61,9 +61,8 @@ func Mint(ethcli *client.ETH, envvars map[string]string, to string, amount uint)
 	toAddr := ethcommon.HexToAddress(to)
 	amountToSend := big.NewInt(int64(amount))
 
-	messageToAsk := fmt.Sprintf("Mint: %d\nTo: %s\nGas Price: %d\n",
+	messageToAsk := fmt.Sprintf("Mint: %d\nTo: %s\nGas Price: %d\nAre you sure? (yes/no): ",
 		amountToSend, toAddr, gasPrice)
-	messageToAsk += fmt.Sprintf("Are you sure? (yes/no): ")
 
 	awnser, err := askBeforeGo(messageToAsk)
 	if err != nil {
