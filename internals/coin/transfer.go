@@ -78,6 +78,7 @@ func Transfer(ethcli *client.ETH, envvars map[string]string, to string, amount u
 		return nil
 	}
 
+	// TODO: improve the error handling to output the tx failure reason!
 	tx, err := coinContractInst.Send(auth, toAddr, amountToSend)
 	if err != nil {
 		return fmt.Errorf("failed to send tokens: %w", err)
