@@ -23,9 +23,10 @@ var (
 )
 
 var envvars = map[string]string{
-	"GANACHE_HOST":       "",
-	"CONTRACT_ADDR":      "",
-	"GANHACE_NETWORK_ID": "",
+	"GANACHE_HOST":        "",
+	"CONTRACT_ADDR":       "",
+	"GANHACE_NETWORK_ID":  "",
+	"ACCOUNT_PRIVATE_KEY": "",
 }
 
 func evalEnvVars() {
@@ -43,18 +44,27 @@ func init() {
 
 	flag.BoolVar(&transafer, "transfer", false, `
 execute a coin transfer from sender to another account. example:
-make it-coin -transfer -to 0x... -amount 10
+go run ./main.go -transfer -to 0x... -amount 10
 `)
 
 	flag.BoolVar(&listen, "listen", false, `
 listen and logs events from smart contract (Minted, Sent). example:
-make it-coin -listen
+go run ./main.go -listen
 `)
 
 	flag.BoolVar(&mint, "mint", false, `
 create more token supply (only minter can execute this function). example:
-make it-coin -mint -amount 10
+go run ./main.go  -mint -amount 10
 `)
+
+	flag.StringVar(&to, "to", "", `
+flag to store the public address from the receiver, used with -transfer and -mint
+`)
+
+	flag.UintVar(&amount, "amount", 0, `
+flag to store the amount of tokens to be minted or transfered, used with -transfer and -mint
+`)
+
 }
 
 func main() {
@@ -98,7 +108,7 @@ func main() {
 	}
 
 	if transafer {
-		err := coin.Transfer(to, amount)
+		err := coin.Transfer(ethcli, envvars, to, amount)
 		if err != nil {
 			log.Fatalf("cannot transfer: %s", err)
 		}
