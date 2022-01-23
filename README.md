@@ -2,6 +2,15 @@
 
 This repository contains a sample Golang application which interacts with a deployed solidity smart contract 
 
+### First steps
+
+- Install Ganache here https://trufflesuite.com/ganache/
+- Run your local ganache and then update the `Makefile` file with the right values of your running ganache instance
+- Once you have a running Ganache locally, in the gear icon at `Truffle Projects` you should add the `truffle-config.js` file to enable a better visualization of what's going on with the deployed contract (eg. get the contract address).
+- Install truffle with npm `npm install -g truffle`
+- At project root execute `truffle migrate`, you should notice new blocks created at your running ganache instance
+
+
 #### simple-storage (example)
 
 - Make sure you have golang installed at your machine.
@@ -20,12 +29,14 @@ The above command will execute the following actions
 
 #### coin (example)
 
+
 In this example, I built a simple smart contract which keeps a mapping of `account -> amount of tokens (uint)`, and the smart contract has 2 public functions `sent` and `mint`, where the `mint` function is only called by the smart contract upload account (minter)
 
 (... same requirements from past example)
 
 In one terminal execute:
 
+> obs: the `make it-coin-listen` at Makefile should contains `ws://` instead of `http://` at `GANACHE_HOST` env var
 ```
 make it-coin-listen
 ```
