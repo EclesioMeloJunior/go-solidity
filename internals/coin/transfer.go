@@ -68,7 +68,11 @@ func Transfer(ethcli *client.ETH, envvars map[string]string, to string, amount u
 	toAddr := ethcommon.HexToAddress(to)
 	amountToSend := big.NewInt(int64(amount))
 
-	awnser, err := askBeforeGo(*pubkey, toAddr, amountToSend, gasPrice)
+	messageToAsk := fmt.Sprintf("From: %s\nTo: %s\nValue: %d\nGas Price: %d\n",
+		toAddr, to, amountToSend, gasPrice)
+	messageToAsk += fmt.Sprintf("Are you sure? (yes/no): ")
+
+	awnser, err := askBeforeGo(messageToAsk)
 	if err != nil {
 		return fmt.Errorf("problems while asking: %w", err)
 	}
@@ -88,12 +92,9 @@ func Transfer(ethcli *client.ETH, envvars map[string]string, to string, amount u
 	return nil
 }
 
-func askBeforeGo(from, to ethcommon.Address, value, gasPrice *big.Int) (aws bool, err error) {
+func askBeforeGo(message string) (aws bool, err error) {
 	reader := bufio.NewReader(os.Stdin)
-	fmt.Printf("From: %s\nTo: %s\nValue: %d\nGas Price: %d\n",
-		from, to, value, gasPrice)
-	fmt.Printf("Are you sure? (yes/no): ")
-
+	fmt.Printf(message)
 	line, err := reader.ReadString('\n')
 	if err != nil {
 		return false, err

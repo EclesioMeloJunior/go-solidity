@@ -115,7 +115,7 @@ func main() {
 	}
 
 	if mint {
-		err := coin.Mint(amount)
+		err := coin.Mint(ethcli, envvars, to, amount)
 		if err != nil {
 			log.Fatalf("cannot mint: %s", err)
 		}
