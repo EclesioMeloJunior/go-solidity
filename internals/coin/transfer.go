@@ -11,7 +11,7 @@ import (
 	"strings"
 
 	"github.com/EclesioMeloJunior/go-solidity/internals/client"
-	"github.com/ethereum/go-ethereum/accounts/abi/bind"
+	ethbind "github.com/ethereum/go-ethereum/accounts/abi/bind"
 	ethcommon "github.com/ethereum/go-ethereum/common"
 )
 
@@ -55,7 +55,7 @@ func Transfer(ethcli *client.ETH, envvars map[string]string, to string, amount u
 		return fmt.Errorf("cannot get suggested gas price: %w", err)
 	}
 
-	auth, err := bind.NewKeyedTransactorWithChainID(privkey, big.NewInt(chainID))
+	auth, err := ethbind.NewKeyedTransactorWithChainID(privkey, big.NewInt(chainID))
 	if err != nil {
 		return fmt.Errorf("cannot create a transactor: %w", err)
 	}
